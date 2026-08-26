@@ -1,5 +1,5 @@
-import Index_Primitives
-import Span_Primitives_Test_Support
+import Index
+import Span_Test_Support
 import Testing
 
 @Suite struct `Span Tests` {

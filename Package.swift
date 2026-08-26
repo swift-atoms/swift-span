@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-span-primitives",
+    name: "swift-span",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -17,36 +17,36 @@ let package = Package(
             targets: ["Span Primitive"]
         ),
         .library(
-            name: "Span Protocol Primitives",
-            targets: ["Span Protocol Primitives"]
+            name: "Span Protocol",
+            targets: ["Span Protocol"]
         ),
         .library(
-            name: "Span Raw Primitives",
-            targets: ["Span Raw Primitives"]
+            name: "Span Raw",
+            targets: ["Span Raw"]
         ),
         .library(
-            name: "Span Primitives",
-            targets: ["Span Primitives"]
+            name: "Span",
+            targets: ["Span"]
         ),
         .library(
-            name: "Span Primitives Test Support",
-            targets: ["Span Primitives Test Support"]
+            name: "Span Test Support",
+            targets: ["Span Test Support"]
         ),
     ],
     dependencies: [
 
         .package(
-            url: "https://github.com/swift-primitives/swift-index-primitives.git",
+            url: "https://github.com/swift-molecules/swift-index.git",
             branch: "main"
         ),
 
         .package(
-            url: "https://github.com/swift-primitives/swift-byte-primitives.git",
+            url: "https://github.com/swift-molecules/swift-byte.git",
             branch: "main"
         ),
 
         .package(
-            url: "https://github.com/swift-primitives/swift-cardinal-primitives.git",
+            url: "https://github.com/swift-molecules/swift-cardinal.git",
             branch: "main"
         ),
     ],
@@ -56,45 +56,45 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "Span Protocol Primitives",
+            name: "Span Protocol",
             dependencies: [
                 "Span Primitive",
-                .product(name: "Index Primitives", package: "swift-index-primitives"),
+                .product(name: "Index", package: "swift-index"),
             ]
         ),
         .target(
-            name: "Span Raw Primitives",
+            name: "Span Raw",
             dependencies: [
                 "Span Primitive",
-                "Span Protocol Primitives",
-                .product(name: "Index Primitives", package: "swift-index-primitives"),
-                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                "Span Protocol",
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(
-                    name: "Cardinal Primitives Standard Library Integration",
-                    package: "swift-cardinal-primitives"
+                    name: "Cardinal Standard Library Integration",
+                    package: "swift-cardinal"
                 ),
             ]
         ),
         .target(
-            name: "Span Primitives",
+            name: "Span",
             dependencies: [
                 "Span Primitive",
-                "Span Protocol Primitives",
-                "Span Raw Primitives",
+                "Span Protocol",
+                "Span Raw",
             ]
         ),
         .target(
-            name: "Span Primitives Test Support",
+            name: "Span Test Support",
             dependencies: [
-                "Span Primitives"
+                "Span"
             ],
             path: "Tests/Support"
         ),
         .testTarget(
-            name: "Span Primitives Tests",
+            name: "Span Tests",
             dependencies: [
-                "Span Primitives",
-                "Span Primitives Test Support",
+                "Span",
+                "Span Test Support",
             ]
         ),
     ],

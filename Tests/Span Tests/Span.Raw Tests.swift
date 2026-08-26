@@ -1,4 +1,4 @@
-import Span_Primitives_Test_Support
+import Span_Test_Support
 import Testing
 
 @Suite struct `Raw Tests` {

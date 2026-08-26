@@ -1,5 +1,5 @@
-import Cardinal_Primitives_Standard_Library_Integration
-public import Index_Primitives
+import Cardinal_Standard_Library_Integration
+public import Index
 
 extension Span.Raw.Mutable {
 
