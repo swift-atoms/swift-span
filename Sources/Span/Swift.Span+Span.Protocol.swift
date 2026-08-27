@@ -1,5 +1,3 @@
-public import Span_Primitive
-
 extension Swift.Span {
 
     public typealias `Protocol` = __Span.`Protocol`

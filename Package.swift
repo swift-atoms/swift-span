@@ -13,89 +13,38 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Span Primitive",
-            targets: ["Span Primitive"]
-        ),
-        .library(
-            name: "Span Protocol",
-            targets: ["Span Protocol"]
-        ),
-        .library(
-            name: "Span Raw",
-            targets: ["Span Raw"]
-        ),
-        .library(
             name: "Span",
             targets: ["Span"]
         ),
         .library(
-            name: "Span Test Support",
-            targets: ["Span Test Support"]
+            name: "Span Standard Library Integration",
+            targets: ["Span Standard Library Integration"]
+        ),
+        .library(
+            name: "Span Apple Foundation Integration",
+            targets: ["Span Apple Foundation Integration"]
         ),
     ],
-    dependencies: [
-
-        .package(
-            url: "https://github.com/swift-molecules/swift-index.git",
-            branch: "main"
-        ),
-
-        .package(
-            url: "https://github.com/swift-molecules/swift-byte.git",
-            branch: "main"
-        ),
-
-        .package(
-            url: "https://github.com/swift-molecules/swift-cardinal.git",
-            branch: "main"
-        ),
-    ],
+    dependencies: [],
     targets: [
         .target(
-            name: "Span Primitive",
+            name: "Span",
             dependencies: []
         ),
         .target(
-            name: "Span Protocol",
-            dependencies: [
-                "Span Primitive",
-                .product(name: "Index", package: "swift-index"),
-            ]
+            name: "Span Standard Library Integration",
+            dependencies: ["Span"]
         ),
         .target(
-            name: "Span Raw",
+            name: "Span Apple Foundation Integration",
             dependencies: [
-                "Span Primitive",
-                "Span Protocol",
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Byte", package: "swift-byte"),
-                .product(
-                    name: "Cardinal Standard Library Integration",
-                    package: "swift-cardinal"
-                ),
+                "Span",
+                "Span Standard Library Integration",
             ]
-        ),
-        .target(
-            name: "Span",
-            dependencies: [
-                "Span Primitive",
-                "Span Protocol",
-                "Span Raw",
-            ]
-        ),
-        .target(
-            name: "Span Test Support",
-            dependencies: [
-                "Span"
-            ],
-            path: "Tests/Support"
         ),
         .testTarget(
             name: "Span Tests",
-            dependencies: [
-                "Span",
-                "Span Test Support",
-            ]
+            dependencies: ["Span"]
         ),
     ],
     swiftLanguageModes: [.v6]
