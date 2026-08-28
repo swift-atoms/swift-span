@@ -1,4 +1,4 @@
-public import Span_Primitive
+public import Span
 
 extension Swift.MutableSpan {
 

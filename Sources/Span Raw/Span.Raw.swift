@@ -1,7 +1,7 @@
-public import Byte_Primitives
-import Cardinal_Primitives_Standard_Library_Integration
-public import Index_Primitives
-public import Span_Protocol_Primitives
+public import Byte
+import Cardinal_Standard_Library_Integration
+public import Index
+public import Span_Protocol
 
 @usableFromInline
 

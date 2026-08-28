@@ -1,7 +1,7 @@
 # Span Primitives
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-primitives/swift-span-primitives/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-primitives/swift-span-primitives/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-atoms/swift-span/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-atoms/swift-span/actions/workflows/ci.yml)
 
 `Span` — the span-vending **capability** domain. It answers one question: *what can vend a contiguous view of its elements?* A type conforms to `Span.Protocol` to expose a `Swift.Span<Element>` (or, via `Span.Mutable.Protocol`, a `Swift.MutableSpan`) over its storage — and generic algorithms then range over *any* such type.
 
@@ -22,7 +22,7 @@ The capability is deliberately **decoupled from any single domain**. A memory re
 ## Quick Start
 
 ```swift
-import Span_Protocol_Primitives
+import Span_Protocol
 
 // Range over any span-vending type — memory regions, storages, buffers.
 func isEmpty<S: Span.`Protocol` & ~Copyable & ~Escapable>(_ source: borrowing S) -> Bool {
@@ -46,7 +46,7 @@ Add the dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-span-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-span.git", branch: "main")
 ]
 ```
 
@@ -56,7 +56,7 @@ Add a product to your target:
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Span Primitives", package: "swift-span-primitives")
+        .product(name: "Span", package: "swift-span")
     ]
 )
 ```
@@ -73,7 +73,7 @@ The package is pre-1.0 — depend on `branch: "main"` until `0.1.0` is tagged. R
 | `Span Primitive` | the `Span` / `Span.Mutable` aliases to `Swift.Span` / `Swift.MutableSpan` | Naming the span types directly |
 | `Span Protocol Primitives` | `Span.Protocol` / `Span.Mutable.Protocol` — the vend-a-`Swift.Span` capability | Conforming a type, or writing code generic over span-vending |
 | `Span Raw Primitives` | `Span.Raw` — untyped, byte-addressed spans | Raw / byte-span work |
-| `Span Primitives Test Support` | Re-exports for downstream test targets | Test target only |
+| `Span Test Support` | Re-exports for downstream test targets | Test target only |
 
 ---
 
@@ -91,9 +91,9 @@ The package is pre-1.0 — depend on `branch: "main"` until `0.1.0` is tagged. R
 
 ## Related Packages
 
-- [`swift-byte-primitives`](https://github.com/swift-primitives/swift-byte-primitives) — `Byte`, the element of `Span.Raw`'s untyped spans.
-- [`swift-index-primitives`](https://github.com/swift-primitives/swift-index-primitives) — `Index<Element>`, the typed positions into a span.
-- [`swift-storage-primitives`](https://github.com/swift-primitives/swift-storage-primitives) — `Storage`, a contiguous substrate that vends its span via this capability (`Storage.Contiguous` is the owned typed region).
+- [`swift-byte`](https://github.com/swift-atoms/swift-byte) — `Byte`, the element of `Span.Raw`'s untyped spans.
+- [`swift-index`](https://github.com/swift-atoms/swift-index) — `Index<Element>`, the typed positions into a span.
+- [`swift-storage`](https://github.com/swift-atoms/swift-storage) — `Storage`, a contiguous substrate that vends its span via this capability (`Storage.Contiguous` is the owned typed region).
 
 ---
 

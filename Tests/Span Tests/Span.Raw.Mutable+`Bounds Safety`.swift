@@ -1,7 +1,7 @@
-import Byte_Primitives
-import Byte_Protocol_Primitives
-import Index_Primitives
-import Span_Primitives_Test_Support
+import Byte
+import Byte_Protocol
+import Index
+import Span_Test_Support
 import Testing
 
 extension __Span.Raw.Mutable {
