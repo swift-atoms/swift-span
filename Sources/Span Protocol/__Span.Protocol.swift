@@ -1,3 +1,5 @@
+public import Span_Primitive
+
 extension __Span {
 
     public protocol `Protocol`: ~Copyable, ~Escapable {
