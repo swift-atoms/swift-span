@@ -1,7 +1,7 @@
-# Span
+# Span Primitives
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-molecules/swift-span/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-molecules/swift-span/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-atoms/swift-span/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-atoms/swift-span/actions/workflows/ci.yml)
 
 `Span` — the span-vending **capability** domain. It answers one question: *what can vend a contiguous view of its elements?* A type conforms to `Span.Protocol` to expose a `Swift.Span<Element>` (or, via `Span.Mutable.Protocol`, a `Swift.MutableSpan`) over its storage — and generic algorithms then range over *any* such type.
 
@@ -46,7 +46,7 @@ Add the dependency to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-span.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-span.git", branch: "main")
 ]
 ```
 
@@ -69,10 +69,10 @@ The package is pre-1.0 — depend on `branch: "main"` until `0.1.0` is tagged. R
 
 | Product | Contents | When to import |
 |---------|----------|----------------|
-| `Span` | Umbrella — re-exports the `Span` aliases and the capability protocols | Most consumers |
+| `Span Primitives` | Umbrella — re-exports the `Span` aliases and the capability protocols | Most consumers |
 | `Span Primitive` | the `Span` / `Span.Mutable` aliases to `Swift.Span` / `Swift.MutableSpan` | Naming the span types directly |
-| `Span Protocol` | `Span.Protocol` / `Span.Mutable.Protocol` — the vend-a-`Swift.Span` capability | Conforming a type, or writing code generic over span-vending |
-| `Span Raw` | `Span.Raw` — untyped, byte-addressed spans | Raw / byte-span work |
+| `Span Protocol Primitives` | `Span.Protocol` / `Span.Mutable.Protocol` — the vend-a-`Swift.Span` capability | Conforming a type, or writing code generic over span-vending |
+| `Span Raw Primitives` | `Span.Raw` — untyped, byte-addressed spans | Raw / byte-span work |
 | `Span Test Support` | Re-exports for downstream test targets | Test target only |
 
 ---
@@ -91,9 +91,9 @@ The package is pre-1.0 — depend on `branch: "main"` until `0.1.0` is tagged. R
 
 ## Related Packages
 
-- [`swift-byte`](https://github.com/swift-molecules/swift-byte) — `Byte`, the element of `Span.Raw`'s untyped spans.
-- [`swift-index`](https://github.com/swift-molecules/swift-index) — `Index<Element>`, the typed positions into a span.
-- [`swift-storage`](https://github.com/swift-molecules/swift-storage) — `Storage`, a contiguous substrate that vends its span via this capability (`Storage.Contiguous` is the owned typed region).
+- [`swift-byte`](https://github.com/swift-atoms/swift-byte) — `Byte`, the element of `Span.Raw`'s untyped spans.
+- [`swift-index`](https://github.com/swift-atoms/swift-index) — `Index<Element>`, the typed positions into a span.
+- [`swift-storage`](https://github.com/swift-atoms/swift-storage) — `Storage`, a contiguous substrate that vends its span via this capability (`Storage.Contiguous` is the owned typed region).
 
 ---
 

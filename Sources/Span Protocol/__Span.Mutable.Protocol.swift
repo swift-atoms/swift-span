@@ -1,5 +1,5 @@
 public import Index
-public import Span_Primitive
+public import Span
 
 extension __Span.Mutable {
 

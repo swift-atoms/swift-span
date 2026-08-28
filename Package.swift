@@ -13,10 +13,6 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Span Primitive",
-            targets: ["Span Primitive"]
-        ),
-        .library(
             name: "Span Protocol",
             targets: ["Span Protocol"]
         ),
@@ -36,37 +32,37 @@ let package = Package(
     dependencies: [
 
         .package(
-            url: "https://github.com/swift-molecules/swift-index.git",
+            url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
         ),
 
         .package(
-            url: "https://github.com/swift-molecules/swift-byte.git",
+            url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         ),
 
         .package(
-            url: "https://github.com/swift-molecules/swift-cardinal.git",
+            url: "https://github.com/swift-atoms/swift-cardinal.git",
             branch: "main"
         ),
     ],
     targets: [
         .target(
-            name: "Span Primitive",
+            name: "Span",
             dependencies: []
         ),
         .target(
             name: "Span Protocol",
             dependencies: [
-                "Span Primitive",
+                .target(name: "Span"),
                 .product(name: "Index", package: "swift-index"),
             ]
         ),
         .target(
             name: "Span Raw",
             dependencies: [
-                "Span Primitive",
-                "Span Protocol",
+                .target(name: "Span"),
+                .target(name: "Span Protocol"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Byte", package: "swift-byte"),
                 .product(
@@ -76,25 +72,17 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Span",
-            dependencies: [
-                "Span Primitive",
-                "Span Protocol",
-                "Span Raw",
-            ]
-        ),
-        .target(
             name: "Span Test Support",
             dependencies: [
-                "Span"
+                .target(name: "Span")
             ],
             path: "Tests/Support"
         ),
         .testTarget(
             name: "Span Tests",
             dependencies: [
-                "Span",
-                "Span Test Support",
+                .target(name: "Span"),
+                .target(name: "Span Test Support"),
             ]
         ),
     ],
