@@ -1,4 +1,4 @@
-import Cardinal_Standard_Library_Integration
+public import Cardinal_Standard_Library_Integration
 public import Index
 
 extension Span.Raw {
