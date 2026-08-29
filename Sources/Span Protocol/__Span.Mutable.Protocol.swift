@@ -1,4 +1,5 @@
 public import Index
+public import Ordinal_Protocol
 public import Span
 
 extension __Span.Mutable {

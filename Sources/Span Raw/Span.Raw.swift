@@ -1,7 +1,12 @@
 public import Byte
-import Cardinal_Standard_Library_Integration
+public import Cardinal
+public import Cardinal_Carrier
+public import Cardinal_Standard_Library_Integration
 public import Index
+public import Ordinal_Protocol
+public import Ordinal_Standard_Library_Integration
 public import Span_Protocol
+public import Tagged
 
 @usableFromInline
 
@@ -39,7 +44,7 @@ extension __Span {
             } else {
                 unsafe self._start = _emptyRawSpanSentinel
             }
-            self._count = Index<Byte>.Count(UInt(buffer.count))
+            self._count = Index<Byte>.Count(Cardinal(UInt(buffer.count)))
         }
     }
 }

@@ -1,7 +1,14 @@
 import Byte
 import Byte_Protocol
+import Cardinal
+import Cardinal_Carrier
+import Cardinal_Tagged
 import Index
+import Ordinal
+import Ordinal_Protocol
+import Span_Raw
 import Span_Test_Support
+import Tagged
 import Testing
 
 extension __Span.Raw.Mutable {

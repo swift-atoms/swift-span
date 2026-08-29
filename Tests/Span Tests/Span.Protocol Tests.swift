@@ -1,4 +1,6 @@
 import Index
+import Ordinal_Protocol
+import Span_Protocol
 import Span_Test_Support
 import Testing
 
