@@ -17,10 +17,6 @@ let package = Package(
             targets: ["Span Protocol"]
         ),
         .library(
-            name: "Span Raw",
-            targets: ["Span Raw"]
-        ),
-        .library(
             name: "Span",
             targets: ["Span"]
         ),
@@ -37,22 +33,7 @@ let package = Package(
         ),
 
         .package(
-            url: "https://github.com/swift-atoms/swift-byte.git",
-            branch: "main"
-        ),
-
-        .package(
-            url: "https://github.com/swift-atoms/swift-cardinal.git",
-            branch: "main"
-        ),
-
-        .package(
             url: "https://github.com/swift-atoms/swift-ordinal.git",
-            branch: "main"
-        ),
-
-        .package(
-            url: "https://github.com/swift-atoms/swift-tagged.git",
             branch: "main"
         ),
     ],
@@ -70,27 +51,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Span Raw",
-            dependencies: [
-                .target(name: "Span"),
-                .target(name: "Span Protocol"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Byte", package: "swift-byte"),
-                .product(
-                    name: "Cardinal Standard Library Integration",
-                    package: "swift-cardinal"
-                ),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-                .product(
-                    name: "Ordinal Standard Library Integration",
-                    package: "swift-ordinal"
-                ),
-                .product(name: "Tagged", package: "swift-tagged"),
-            ]
-        ),
-        .target(
             name: "Span Test Support",
             dependencies: [
                 .target(name: "Span")
@@ -102,17 +62,9 @@ let package = Package(
             dependencies: [
                 .target(name: "Span"),
                 .target(name: "Span Protocol"),
-                .target(name: "Span Raw"),
                 .target(name: "Span Test Support"),
-                .product(name: "Byte", package: "swift-byte"),
-                .product(name: "Byte Protocol", package: "swift-byte"),
-                .product(name: "Cardinal", package: "swift-cardinal"),
-                .product(name: "Cardinal Carrier", package: "swift-cardinal"),
-                .product(name: "Cardinal Tagged", package: "swift-cardinal"),
                 .product(name: "Index", package: "swift-index"),
-                .product(name: "Ordinal", package: "swift-ordinal"),
                 .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-                .product(name: "Tagged", package: "swift-tagged"),
             ]
         ),
     ],
