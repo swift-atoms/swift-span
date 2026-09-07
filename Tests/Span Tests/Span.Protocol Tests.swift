@@ -4,14 +4,14 @@ import Span
 import Span_Test_Support
 import Testing
 
-@Suite struct `Span Tests` {
-    @Suite struct Unit {}
-    @Suite struct `Edge Case` {}
-    @Suite struct Integration {}
-    @Suite(.serialized) struct Performance {}
+@Suite struct `Span protocols lend owned and borrowed contiguous storage` {
+    @Suite struct `Span conformers preserve borrowed views and element capabilities` {}
+    @Suite struct `Span protocols preserve empty and single element regions` {}
+    @Suite struct `Generic span algorithms read owned mutable and borrowed regions` {}
+    @Suite(.serialized) struct `No span protocol performance cases are defined` {}
 }
 
-extension `Span Tests` {
+extension `Span protocols lend owned and borrowed contiguous storage` {
 
     struct Owned: Span.`Protocol` {
         var storage: [Int]
@@ -34,7 +34,7 @@ extension `Span Tests` {
     }
 }
 
-extension `Span Tests`.Owned {
+extension `Span protocols lend owned and borrowed contiguous storage`.Owned {
     typealias Element = Int
 
     var span: Swift.Span<Int> {
@@ -42,7 +42,7 @@ extension `Span Tests`.Owned {
     }
 }
 
-extension `Span Tests`.Mutable {
+extension `Span protocols lend owned and borrowed contiguous storage`.Mutable {
     typealias Element = Int
 
     var span: Swift.Span<Int> {
@@ -58,19 +58,19 @@ extension `Span Tests`.Mutable {
     }
 }
 
-extension `Span Tests`.Tokens {
-    typealias Element = `Span Tests`.Token
+extension `Span protocols lend owned and borrowed contiguous storage`.Tokens {
+    typealias Element = `Span protocols lend owned and borrowed contiguous storage`.Token
 
-    var span: Swift.Span<`Span Tests`.Token> {
+    var span: Swift.Span<`Span protocols lend owned and borrowed contiguous storage`.Token> {
         @_lifetime(borrow self) get { storage.span }
     }
 }
 
-extension `Span Tests`.Unit {
+extension `Span protocols lend owned and borrowed contiguous storage`.`Span conformers preserve borrowed views and element capabilities` {
 
     @Test
     func `owned struct conforms to Span Protocol and vends span`() {
-        let region = `Span Tests`.Owned([10, 20, 30])
+        let region = `Span protocols lend owned and borrowed contiguous storage`.Owned([10, 20, 30])
         let span = region.span
         #expect(span.count == 3)
         #expect(span[0] == 10)
@@ -79,7 +79,7 @@ extension `Span Tests`.Unit {
 
     @Test
     func `owned struct conforms to Span Mutable Protocol and vends mutableSpan`() {
-        var region = `Span Tests`.Mutable([1, 2, 3])
+        var region = `Span protocols lend owned and borrowed contiguous storage`.Mutable([1, 2, 3])
         do {
             var m = region.mutableSpan
             #expect(m.count == 3)
@@ -105,8 +105,8 @@ extension `Span Tests`.Unit {
 
     @Test
     func `~Copyable element owned region conforms to Span Protocol`() {
-        let region = `Span Tests`.Tokens(
-            InlineArray<3, `Span Tests`.Token> { `Span Tests`.Token($0 + 1) }
+        let region = `Span protocols lend owned and borrowed contiguous storage`.Tokens(
+            InlineArray<3, `Span protocols lend owned and borrowed contiguous storage`.Token> { `Span protocols lend owned and borrowed contiguous storage`.Token($0 + 1) }
         )
         let span = region.span
         #expect(span.count == 3)
@@ -115,7 +115,7 @@ extension `Span Tests`.Unit {
     }
 }
 
-extension `Span Tests`.`Edge Case` {
+extension `Span protocols lend owned and borrowed contiguous storage`.`Span protocols preserve empty and single element regions` {
 
     @Test
     func `empty Swift Span satisfies Span Protocol with zero count`() {
@@ -131,14 +131,14 @@ extension `Span Tests`.`Edge Case` {
 
     @Test
     func `single-element owned region vends length-one span`() {
-        let region = `Span Tests`.Owned([42])
+        let region = `Span protocols lend owned and borrowed contiguous storage`.Owned([42])
         let span = region.span
         #expect(span.count == 1)
         #expect(span[0] == 42)
     }
 }
 
-extension `Span Tests`.Integration {
+extension `Span protocols lend owned and borrowed contiguous storage`.`Generic span algorithms read owned mutable and borrowed regions` {
 
     static func sum<R: Span.`Protocol` & ~Copyable>(_ region: borrowing R) -> Int
     where R.Element == Int {
@@ -158,13 +158,13 @@ extension `Span Tests`.Integration {
 
     @Test
     func `generic over Span Protocol sums an owned region`() {
-        let region = `Span Tests`.Owned([5, 7, 11])
+        let region = `Span protocols lend owned and borrowed contiguous storage`.Owned([5, 7, 11])
         #expect(Self.sum(region) == 23)
     }
 
     @Test
     func `generic over Span Protocol sums a mutable region after edit`() {
-        var region = `Span Tests`.Mutable([1, 1, 1])
+        var region = `Span protocols lend owned and borrowed contiguous storage`.Mutable([1, 1, 1])
         do {
             var m = region.mutableSpan
             m[2] = 8
@@ -181,4 +181,4 @@ extension `Span Tests`.Integration {
     }
 }
 
-extension `Span Tests`.Performance {}
+extension `Span protocols lend owned and borrowed contiguous storage`.`No span protocol performance cases are defined` {}
