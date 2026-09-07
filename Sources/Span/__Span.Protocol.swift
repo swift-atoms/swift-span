@@ -1,4 +1,3 @@
-
 extension __Span {
 
     public protocol `Protocol`: ~Copyable, ~Escapable {

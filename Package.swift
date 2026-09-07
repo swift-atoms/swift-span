@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Span", targets: ["Span"]),
-        .library(name: "Span Standard Library Integration", targets: ["Span Standard Library Integration"]),
-        .library(name: "Span Foundation Library Integration", targets: ["Span Foundation Library Integration"]),
+
+        .library(name: "Span Foundation Integration", targets: ["Span Foundation Integration"]),
         .library(name: "Span Test Support", targets: ["Span Test Support"]),
     ],
     dependencies: [
@@ -38,20 +38,13 @@ let package = Package(
             ],
             path: "Sources/Span"
         ),
+        
         .target(
-            name: "Span Standard Library Integration",
+            name: "Span Foundation Integration",
             dependencies: [
                 .target(name: "Span"),
             ],
-            path: "Sources/Span Standard Library Integration"
-        ),
-        .target(
-            name: "Span Foundation Library Integration",
-            dependencies: [
-                .target(name: "Span"),
-                .target(name: "Span Standard Library Integration"),
-            ],
-            path: "Sources/Span Foundation Library Integration"
+            path: "Sources/Span Foundation Integration"
         ),
         .target(
             name: "Span Test Support",
@@ -67,8 +60,7 @@ let package = Package(
                 .target(name: "Span Test Support"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .target(name: "Span Standard Library Integration"),
-                .target(name: "Span Foundation Library Integration"),
+                .target(name: "Span Foundation Integration"),
             ],
             path: "Tests/Span Tests"
         ),
