@@ -1,4 +1,3 @@
-public import Span
 
 extension Swift.Span {
 

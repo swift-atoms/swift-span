@@ -12,18 +12,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(
-            name: "Span Protocol",
-            targets: ["Span Protocol"]
-        ),
-        .library(
-            name: "Span",
-            targets: ["Span"]
-        ),
-        .library(
-            name: "Span Test Support",
-            targets: ["Span Test Support"]
-        ),
+        .library(name: "Span", targets: ["Span"]),
+        .library(name: "Span Standard Library Integration", targets: ["Span Standard Library Integration"]),
+        .library(name: "Span Foundation Library Integration", targets: ["Span Foundation Library Integration"]),
+        .library(name: "Span Test Support", targets: ["Span Test Support"]),
     ],
     dependencies: [
 
@@ -40,20 +32,31 @@ let package = Package(
     targets: [
         .target(
             name: "Span",
-            dependencies: []
+            dependencies: [
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Ordinal", package: "swift-ordinal"),
+            ],
+            path: "Sources/Span"
         ),
         .target(
-            name: "Span Protocol",
+            name: "Span Standard Library Integration",
             dependencies: [
                 .target(name: "Span"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-            ]
+            ],
+            path: "Sources/Span Standard Library Integration"
+        ),
+        .target(
+            name: "Span Foundation Library Integration",
+            dependencies: [
+                .target(name: "Span"),
+                .target(name: "Span Standard Library Integration"),
+            ],
+            path: "Sources/Span Foundation Library Integration"
         ),
         .target(
             name: "Span Test Support",
             dependencies: [
-                .target(name: "Span")
+                .target(name: "Span"),
             ],
             path: "Tests/Support"
         ),
@@ -61,18 +64,20 @@ let package = Package(
             name: "Span Tests",
             dependencies: [
                 .target(name: "Span"),
-                .target(name: "Span Protocol"),
                 .target(name: "Span Test Support"),
                 .product(name: "Index", package: "swift-index"),
-                .product(name: "Ordinal Protocol", package: "swift-ordinal"),
-            ]
+                .product(name: "Ordinal", package: "swift-ordinal"),
+                .target(name: "Span Standard Library Integration"),
+                .target(name: "Span Foundation Library Integration"),
+            ],
+            path: "Tests/Span Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -81,8 +86,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
