@@ -17,7 +17,15 @@ let package = Package(
         .library(name: "Span Foundation Integration", targets: ["Span Foundation Integration"]),
         .library(name: "Span Test Support", targets: ["Span Test Support"]),
     ],
+    traits: [
+        .trait(name: "Iterator", description: "Iterator integration"),
+        .trait(name: "Byte", description: "Byte integration"),
+    ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-byte.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-iterator.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-cardinal.git", branch: "main"),
 
         .package(
             url: "https://github.com/swift-atoms/swift-index.git",
@@ -30,15 +38,42 @@ let package = Package(
         ),
     ],
     targets: [
+        .testTarget(
+            name: "Absorbed swift-span-byte Tests",
+            dependencies: [
+                .target(name: "Span", condition: .when(traits: ["Byte"])),
+            ],
+            path: "Tests/Absorbed swift-span-byte Tests"
+        ),
+        .testTarget(
+            name: "Absorbed swift-memory-span Tests",
+            dependencies: [
+                .target(name: "Span"),
+            ],
+            path: "Tests/Absorbed swift-memory-span Tests"
+        ),
+        .testTarget(
+            name: "Absorbed swift-memory-iterator Tests",
+            dependencies: [
+                .product(name: "Cardinal", package: "swift-cardinal", condition: .when(traits: ["Iterator"])),
+                .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["Iterator"])),
+                .target(name: "Span", condition: .when(traits: ["Iterator"])),
+            ],
+            path: "Tests/Absorbed swift-memory-iterator Tests"
+        ),
         .target(
             name: "Span",
             dependencies: [
+                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Byte"])),
+                .product(name: "Cardinal", package: "swift-cardinal", condition: .when(traits: ["Byte"])),
+                .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["Iterator"])),
+                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Byte"])),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
             ],
             path: "Sources/Span"
         ),
-        
+
         .target(
             name: "Span Foundation Integration",
             dependencies: [
@@ -56,6 +91,7 @@ let package = Package(
         .testTarget(
             name: "Span Tests",
             dependencies: [
+                .product(name: "Cardinal", package: "swift-cardinal"),
                 .target(name: "Span"),
                 .target(name: "Span Test Support"),
                 .product(name: "Index", package: "swift-index"),
