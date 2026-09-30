@@ -3,25 +3,27 @@ public import Cardinal
 
 extension Span.Raw {
 
+    @unsafe
     public struct Base {
         @usableFromInline
         internal let _parent: Span.Raw
 
         @inlinable
         package init(_ parent: Span.Raw) {
-            self._parent = parent
+            unsafe self._parent = unsafe parent
         }
     }
 
     @inlinable
-    public var base: Base { Base(self) }
+    @unsafe
+    public var base: Base { unsafe Base(self) }
 }
 
 extension Span.Raw.Base {
 
     @inlinable
     public var nullable: UnsafeRawBufferPointer {
-        if _parent.isEmpty {
+        if unsafe _parent.isEmpty {
             return unsafe UnsafeRawBufferPointer(start: nil, count: 0)
         }
         return unsafe UnsafeRawBufferPointer(

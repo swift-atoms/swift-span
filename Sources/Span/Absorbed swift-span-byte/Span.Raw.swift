@@ -13,7 +13,7 @@ nonisolated(unsafe) let _emptyRawSpanSentinel: UnsafeRawPointer =
 
 extension __Span {
 
-    @safe
+    @unsafe
 
     public struct Raw: Hashable, @unchecked Sendable {
 
@@ -26,13 +26,14 @@ extension __Span {
         @inlinable
         public init(start: UnsafeRawPointer, count: Index<Byte>.Count) {
             unsafe self._start = start
-            self._count = count
+            unsafe self._count = count
         }
 
         @inlinable
+        @safe
         public init() {
             unsafe self._start = _emptyRawSpanSentinel
-            self._count = .zero
+            unsafe self._count = .zero
         }
 
         @inlinable
@@ -42,7 +43,7 @@ extension __Span {
             } else {
                 unsafe self._start = _emptyRawSpanSentinel
             }
-            self._count = Index<Byte>.Count(Cardinal(UInt(buffer.count)))
+            unsafe self._count = Index<Byte>.Count(Cardinal(UInt(buffer.count)))
         }
     }
 }
@@ -50,17 +51,20 @@ extension __Span {
 extension Span.Raw {
 
     @inlinable
-    public var count: Index<Byte>.Count { _count }
+    @safe
+    public var count: Index<Byte>.Count { unsafe _count }
 
     @inlinable
-    public var isEmpty: Bool { _count == .zero }
+    @safe
+    public var isEmpty: Bool { unsafe _count == .zero }
 }
 
-extension Span.Raw: Span.`Protocol` {
+extension Span.Raw: @unsafe Span.`Protocol` {
 
     public typealias Element = Byte
 
     @inlinable
+    @unsafe
     public var span: Swift.Span<Byte> {
         @_lifetime(borrow self)
         borrowing get {
@@ -73,6 +77,7 @@ extension Span.Raw: Span.`Protocol` {
 extension Span.Raw {
 
     @inlinable
+    @unsafe
     public func withRebound<T, Result, E: Swift.Error>(
         to type: T.Type,
         _ body: (UnsafeBufferPointer<T>) throws(E) -> Result
@@ -87,7 +92,7 @@ extension Span.Raw: CustomStringConvertible {
 
     public var description: String {
         let address = unsafe UInt(bitPattern: _start)
-        return "Span.Raw(start: 0x\(String(address, radix: 16)), count: \(Int(bitPattern: _count)))"
+        return unsafe "Span.Raw(start: 0x\(String(address, radix: 16)), count: \(Int(bitPattern: _count)))"
     }
 }
 
@@ -95,7 +100,7 @@ extension Span.Raw: CustomDebugStringConvertible {
 
     public var debugDescription: String {
         let address = unsafe UInt(bitPattern: _start)
-        return "Span.Raw(start: 0x\(String(address, radix: 16)), count: \(Int(bitPattern: _count)))"
+        return unsafe "Span.Raw(start: 0x\(String(address, radix: 16)), count: \(Int(bitPattern: _count)))"
     }
 }
 
@@ -112,7 +117,7 @@ extension Span.Raw {
     @inlinable
     public func hash(into hasher: inout Hasher) {
         unsafe hasher.combine(_start)
-        hasher.combine(_count)
+        unsafe hasher.combine(_count)
     }
 }
 #endif

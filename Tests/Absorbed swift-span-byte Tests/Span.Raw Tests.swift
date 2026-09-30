@@ -15,10 +15,11 @@ extension `Raw Tests`.Unit {
         let buffer = UnsafeMutableRawBufferPointer.allocate(byteCount: n, alignment: 8)
         defer { unsafe buffer.deallocate() }
         let raw: Span.Raw.Mutable = unsafe .init(buffer)
-        #expect(!raw.isEmpty)
-        let spanCount = raw.span.count
+        let rawIsEmpty = raw.isEmpty
+        #expect(!rawIsEmpty)
+        let spanCount = unsafe raw.span.count
         #expect(spanCount == n)
-        let immutableCount = raw.immutable.span.count
+        let immutableCount = unsafe raw.immutable.span.count
         #expect(immutableCount == n)
     }
 }
@@ -27,8 +28,9 @@ extension `Raw Tests`.`Edge Case` {
     @Test
     func `empty raw span is empty with a non-null sentinel`() {
         let raw: Span.Raw = .init()
-        #expect(raw.isEmpty)
-        let spanEmpty = raw.span.isEmpty
+        let rawIsEmpty = raw.isEmpty
+        #expect(rawIsEmpty)
+        let spanEmpty = unsafe raw.span.isEmpty
         #expect(spanEmpty)
         #expect(unsafe raw.base.nonNull.baseAddress != nil)
         #expect(unsafe raw.base.nullable.baseAddress == nil)
