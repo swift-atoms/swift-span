@@ -9,7 +9,7 @@ extension Span.Raw {
 
     @safe
 
-    public struct Mutable: Hashable {
+    public struct Mutable: Hashable, @unchecked Sendable {
 
         @usableFromInline
         internal let _start: UnsafeMutableRawPointer

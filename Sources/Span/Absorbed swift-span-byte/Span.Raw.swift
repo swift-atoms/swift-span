@@ -15,7 +15,7 @@ extension __Span {
 
     @safe
 
-    public struct Raw: Hashable {
+    public struct Raw: Hashable, @unchecked Sendable {
 
         @usableFromInline
         internal let _start: UnsafeRawPointer
