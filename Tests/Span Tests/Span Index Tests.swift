@@ -37,7 +37,7 @@ struct `Span Index Tests` {
 }
 
 private func requiresMutableSpanProtocol<
-    S: Swift.MutableSpan<Int>.`Protocol` & ~Copyable
+    S: Swift::MutableSpan<Int>.`Protocol` & ~Copyable
 >(
     _: S.Type
 ) -> Bool {
@@ -45,8 +45,7 @@ private func requiresMutableSpanProtocol<
 }
 
 @safe
-private struct Fixture: ~Copyable, Swift.MutableSpan<Int>.`Protocol` {
-
+private struct Fixture: ~Copyable, Swift::MutableSpan<Int>.`Protocol` {
     private let storage: UnsafeMutablePointer<Int>
 
     init() {
@@ -59,15 +58,17 @@ private struct Fixture: ~Copyable, Swift.MutableSpan<Int>.`Protocol` {
         unsafe storage.deinitialize(count: 3)
         unsafe storage.deallocate()
     }
+}
 
-    var span: Swift.Span<Int> {
+extension Fixture {
+    var span: Swift::Span<Int> {
         @_lifetime(borrow self)
         borrowing get {
             unsafe Span(_unsafeStart: storage, count: 3)
         }
     }
 
-    var mutableSpan: Swift.MutableSpan<Int> {
+    var mutableSpan: Swift::MutableSpan<Int> {
         @_lifetime(&self)
         mutating get {
             unsafe MutableSpan(_unsafeStart: storage, count: 3)
@@ -75,7 +76,7 @@ private struct Fixture: ~Copyable, Swift.MutableSpan<Int>.`Protocol` {
     }
 
     @_lifetime(&self)
-    mutating func mutableSpan(count: Index<Int>.Count) -> Swift.MutableSpan<Int> {
+    mutating func mutableSpan(count: Index<Int>.Count) -> Swift::MutableSpan<Int> {
         let length = min(3, Int(count.underlying.rawValue))
         return unsafe MutableSpan(_unsafeStart: storage, count: length)
     }

@@ -4,6 +4,6 @@ extension __Span {
 
         associatedtype Element: ~Copyable
 
-        var span: Swift.Span<Element> { @_lifetime(borrow self) get }
+        var span: Swift::Span<Element> { @_lifetime(borrow self) get }
     }
 }

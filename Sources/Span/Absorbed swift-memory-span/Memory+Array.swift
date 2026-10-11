@@ -1,1 +1,1 @@
-extension Swift.Array: Span.`Protocol` {}
+extension Swift::Array: Span.`Protocol` {}

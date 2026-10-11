@@ -1,5 +1,5 @@
 #if Byte
-extension Swift.Span {
+extension Swift::Span {
 
     public typealias Raw = __Span.Raw
 }

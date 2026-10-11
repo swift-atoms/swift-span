@@ -37,7 +37,7 @@ extension `Span protocols lend owned and borrowed contiguous storage` {
 extension `Span protocols lend owned and borrowed contiguous storage`.Owned {
     typealias Element = Int
 
-    var span: Swift.Span<Int> {
+    var span: Swift::Span<Int> {
         @_lifetime(borrow self) get { storage.span }
     }
 }
@@ -45,15 +45,15 @@ extension `Span protocols lend owned and borrowed contiguous storage`.Owned {
 extension `Span protocols lend owned and borrowed contiguous storage`.Mutable {
     typealias Element = Int
 
-    var span: Swift.Span<Int> {
+    var span: Swift::Span<Int> {
         @_lifetime(borrow self) get { storage.span }
     }
-    var mutableSpan: Swift.MutableSpan<Int> {
+    var mutableSpan: Swift::MutableSpan<Int> {
         mutating get { storage.mutableSpan }
     }
 
     @_lifetime(&self)
-    mutating func mutableSpan(count: Index<Int>.Count) -> Swift.MutableSpan<Int> {
+    mutating func mutableSpan(count: Index<Int>.Count) -> Swift::MutableSpan<Int> {
         storage.mutableSpan
     }
 }
@@ -61,7 +61,7 @@ extension `Span protocols lend owned and borrowed contiguous storage`.Mutable {
 extension `Span protocols lend owned and borrowed contiguous storage`.Tokens {
     typealias Element = `Span protocols lend owned and borrowed contiguous storage`.Token
 
-    var span: Swift.Span<`Span protocols lend owned and borrowed contiguous storage`.Token> {
+    var span: Swift::Span<`Span protocols lend owned and borrowed contiguous storage`.Token> {
         @_lifetime(borrow self) get { storage.span }
     }
 }
@@ -93,7 +93,7 @@ extension `Span protocols lend owned and borrowed contiguous storage`.`Span conf
     @Test
     func `bare Swift Span of UInt8 satisfies Span Protocol and round-trips bytes`() {
         let bytes: [UInt8] = [0xDE, 0xAD, 0xBE, 0xEF]
-        let span: Swift.Span<UInt8> = bytes.span
+        let span: Swift::Span<UInt8> = bytes.span
 
         let vended = span.span
         #expect(vended.count == 4)
@@ -120,7 +120,7 @@ extension `Span protocols lend owned and borrowed contiguous storage`.`Span prot
     @Test
     func `empty Swift Span satisfies Span Protocol with zero count`() {
         let empty: [UInt8] = []
-        let span: Swift.Span<UInt8> = empty.span
+        let span: Swift::Span<UInt8> = empty.span
         let vended = span.span
 
         let count = vended.count
@@ -176,7 +176,7 @@ extension `Span protocols lend owned and borrowed contiguous storage`.`Generic s
     @Test
     func `generic over suppressed Span Protocol reads first byte of a bare span`() {
         let bytes: [UInt8] = [0x7F, 0x00]
-        let span: Swift.Span<UInt8> = bytes.span
+        let span: Swift::Span<UInt8> = bytes.span
         #expect(Self.firstByte(span) == 0x7F)
     }
 }

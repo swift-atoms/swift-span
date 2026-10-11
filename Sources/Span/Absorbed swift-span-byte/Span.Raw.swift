@@ -65,11 +65,11 @@ extension Span.Raw: @unsafe Span.`Protocol` {
 
     @inlinable
     @unsafe
-    public var span: Swift.Span<Byte> {
+    public var span: Swift::Span<Byte> {
         @_lifetime(borrow self)
         borrowing get {
             let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-            return unsafe Swift.Span(_unsafeStart: typed, count: _count)
+            return unsafe Swift::Span(_unsafeStart: typed, count: _count)
         }
     }
 }
@@ -78,7 +78,7 @@ extension Span.Raw {
 
     @inlinable
     @unsafe
-    public func withRebound<T, Result, E: Swift.Error>(
+    public func withRebound<T, Result, E: Swift::Error>(
         to type: T.Type,
         _ body: (UnsafeBufferPointer<T>) throws(E) -> Result
     ) throws(E) -> Result {

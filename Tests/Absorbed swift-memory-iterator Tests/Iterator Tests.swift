@@ -5,13 +5,16 @@ import Span
 import Testing
 
 private struct BorrowedBuffer<Element: ~Copyable>: ~Copyable, ~Escapable, Span::__Span.`Protocol`, Iterable {
-    let storage: Swift.Span<Element>
-    typealias Iterator = Iterator::Iterator.Chunk<Element>
+    let storage: Swift::Span<Element>
 
     @_lifetime(copy storage)
-    init(_ storage: Swift.Span<Element>) { self.storage = storage }
+    init(_ storage: Swift::Span<Element>) { self.storage = storage }
+}
 
-    var span: Swift.Span<Element> {
+extension BorrowedBuffer where Element: ~Copyable {
+    typealias Iterator = Iterator::Iterator.Chunk<Element>
+
+    var span: Swift::Span<Element> {
         @_lifetime(borrow self) borrowing get { storage }
     }
 }

@@ -96,7 +96,6 @@ let package = Package(
                 .target(name: "Span Test Support"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
-                .target(name: "Span Foundation Integration"),
             ],
             path: "Tests/Span Tests"
         ),

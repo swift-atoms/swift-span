@@ -64,34 +64,34 @@ extension Span.Raw.Mutable: @unsafe Span.Mutable.`Protocol` {
 
     @inlinable
     @unsafe
-    public var span: Swift.Span<Byte> {
+    public var span: Swift::Span<Byte> {
         @_lifetime(borrow self)
         borrowing get {
             let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-            return unsafe Swift.Span(_unsafeStart: typed, count: _count)
+            return unsafe Swift::Span(_unsafeStart: typed, count: _count)
         }
     }
 
     @inlinable
     @unsafe
-    public var mutableSpan: Swift.MutableSpan<Byte> {
+    public var mutableSpan: Swift::MutableSpan<Byte> {
         @_lifetime(&self)
         mutating get {
             let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-            return unsafe Swift.MutableSpan(_unsafeStart: typed, count: _count)
+            return unsafe Swift::MutableSpan(_unsafeStart: typed, count: _count)
         }
     }
 
     @inlinable
     @_lifetime(&self)
     @unsafe
-    public mutating func mutableSpan(count: Index<Byte>.Count) -> Swift.MutableSpan<Byte> {
+    public mutating func mutableSpan(count: Index<Byte>.Count) -> Swift::MutableSpan<Byte> {
         unsafe precondition(
             count <= _count,
             unsafe "Span.Raw.Mutable.mutableSpan(count:): count (\(Int(bitPattern: count))) exceeds span capacity (\(Int(bitPattern: _count)))"
         )
         let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-        return unsafe Swift.MutableSpan(_unsafeStart: typed, count: count)
+        return unsafe Swift::MutableSpan(_unsafeStart: typed, count: count)
     }
 }
 
@@ -122,7 +122,7 @@ extension Span.Raw.Mutable {
 
     @inlinable
     @unsafe
-    public func withRebound<T, Result, E: Swift.Error>(
+    public func withRebound<T, Result, E: Swift::Error>(
         to type: T.Type,
         _ body: (UnsafeMutableBufferPointer<T>) throws(E) -> Result
     ) throws(E) -> Result {
