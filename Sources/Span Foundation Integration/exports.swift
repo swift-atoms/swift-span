@@ -1,2 +1,2 @@
-@_exported public import Span
 import Foundation
+@_exported public import Span

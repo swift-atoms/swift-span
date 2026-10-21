@@ -41,14 +41,14 @@ let package = Package(
         .testTarget(
             name: "Absorbed swift-span-byte Tests",
             dependencies: [
-                .target(name: "Span", condition: .when(traits: ["Byte"])),
+                .target(name: "Span", condition: .when(traits: ["Byte"]))
             ],
             path: "Tests/Absorbed swift-span-byte Tests"
         ),
         .testTarget(
             name: "Absorbed swift-memory-span Tests",
             dependencies: [
-                .target(name: "Span"),
+                .target(name: "Span")
             ],
             path: "Tests/Absorbed swift-memory-span Tests"
         ),
@@ -77,14 +77,14 @@ let package = Package(
         .target(
             name: "Span Foundation Integration",
             dependencies: [
-                .target(name: "Span"),
+                .target(name: "Span")
             ],
             path: "Sources/Span Foundation Integration"
         ),
         .target(
             name: "Span Test Support",
             dependencies: [
-                .target(name: "Span"),
+                .target(name: "Span")
             ],
             path: "Tests/Support"
         ),
