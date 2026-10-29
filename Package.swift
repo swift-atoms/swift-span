@@ -64,10 +64,10 @@ let package = Package(
         .target(
             name: "Span",
             dependencies: [
-                .product(name: "Byte", package: "swift-byte", condition: .when(traits: ["Byte"])),
-                .product(name: "Cardinal", package: "swift-cardinal", condition: .when(traits: ["Byte"])),
-                .product(name: "Iterator", package: "swift-iterator", condition: .when(traits: ["Iterator"])),
-                .product(name: "Tagged", package: "swift-tagged", condition: .when(traits: ["Byte"])),
+                .product(name: "Byte", package: "swift-byte"),
+                .product(name: "Cardinal", package: "swift-cardinal"),
+                .product(name: "Iterator", package: "swift-iterator"),
+                .product(name: "Tagged", package: "swift-tagged"),
                 .product(name: "Index", package: "swift-index"),
                 .product(name: "Ordinal", package: "swift-ordinal"),
             ],
