@@ -1,35 +1,14 @@
 # swift-span
 
-## Raw descriptors: `Span.Raw` and `Span.Raw.Mutable` (trait `Byte`)
+Use this package when your type lends its contiguous storage as a `Swift.Span` and you want generic code to accept it alongside a plain span or an array. Conform to `Span.Protocol`, or to `Span.Mutable.Protocol` when the storage can also be written. For an untyped region of bytes given by an address and a length, such as memory handed to or from a system call, use `Span.Raw` or `Span.Raw.Mutable`, which come with the `Byte` trait.
 
-`Span.Raw` and `Span.Raw.Mutable` are non-owning descriptors: a start address and a byte count (`Index<Byte>.Count`). Copying a descriptor copies those two values only. A descriptor does not allocate, retain, initialise, bind or free the memory it describes, and nothing in the type records how long that memory stays valid. Both types are `@unsafe`; every member that reaches the described bytes is `@unsafe` as well.
+## Laws
 
-### What is safe
-
-- `init()` creates an empty descriptor: count zero, start set to a module-private sentinel address. `init(_:)` with a buffer whose `baseAddress` is `nil` produces the same empty descriptor.
-- `count` and `isEmpty` read the descriptor's own fields and are `@safe`.
-- An empty descriptor never reads or writes memory through its views; its start address is a sentinel and must never be dereferenced through `base.nonNull`.
-- `Sendable`: a descriptor may be copied into another isolation domain because its two stored fields are immutable. That says nothing about the bytes it points at: sending a descriptor does not make the described memory safe to access concurrently.
-
-### Preconditions for a non-empty descriptor
-
-The caller is responsible for all of the following. None of them is checked unless stated.
-
-- Allocation and lifetime: `[start, start + count)` is one allocated region and stays allocated for as long as any use described below is in progress.
-- Initialisation: bytes read through `span`, `mutableSpan`, `withRebound` or `copy(from:)` (as source) are initialised.
-- Binding: `span`, `mutableSpan` and `mutableSpan(count:)` view the region as `Byte` (`assumingMemoryBound(to: Byte.self)`); the region must be bound to `Byte`, not to another type.
-- Alignment and size for `withRebound(to:_:)`: it rebinds the region to `T` for the duration of the closure (`withMemoryRebound(to:)`), so the start must be aligned for `T` and the byte count must fit whole `T` values as that API requires. The typed buffer is valid only inside the closure and must not escape it.
-- Count: `mutableSpan(count:)` requires `count <= self.count` and `copy(from:)` requires `source.count <= self.count`; both are checked with `precondition` and trap otherwise. `copy(from:)` writes `source.count` bytes at the start of the destination and leaves the rest unchanged.
-- Overlap: `copy(from:)` is implemented with `copyMemory(from:)`. Use it only for non-overlapping source and destination regions; overlapping copies are not part of this API's contract.
-- Aliasing: while a `Span.Raw.Mutable` is being written (through `mutableSpan`, `withRebound` or `copy(from:)`), no other code may read or write the same bytes, including through other descriptors or copies of this one. While a `Span.Raw` is being read, no other code may write the same bytes.
-
-### How long the memory must stay valid
-
-- Views (`span`, `mutableSpan`, `mutableSpan(count:)`): for as long as the returned `Span` / `MutableSpan` is used.
-- Callbacks (`withRebound`): for the duration of the closure.
-- Operations that take a descriptor (in this package or in packages that accept one): from the call until the operation returns or throws. For an `async` operation that includes every suspension, and cancellation does not end the obligation: the memory must remain valid, and exclusively reserved as described above, until the operation has actually returned or thrown, not merely until cancellation was requested. At most one in-flight operation should use a given region unless the operation documents otherwise.
-- Whether a particular consumer's backend has finished with the memory when it returns is that consumer's contract; this package makes no claim about any backend.
-
-### Diagnostics are opt-in
-
-Marking these types `@unsafe` makes the compiler ask for an explicit `unsafe` at each use only in code built with strict memory safety enabled (`.strictMemorySafety()`). Without that setting there are no diagnostics, and in no configuration does the compiler check the preconditions above. They are the caller's obligation.
+- `Swift.Span` conforms to `Span.Protocol` by vending itself, and `Swift.Array` conforms by vending its own span.
+- `Span.Raw` and `Span.Raw.Mutable` describe memory without owning it: a start address and a byte count. Copying one copies those two values. Nothing is allocated, retained, initialized, bound or freed, and nothing records how long the memory stays valid.
+- An empty descriptor, made with no arguments or from a buffer with no base address, points at one shared sentinel address. Its `Span.Raw.Base.nullable` buffer has a nil base address. Its `Span.Raw.Base.nonNull` buffer has the sentinel, which must never be read or written.
+- Two descriptors are equal, and hash alike, when their start address and byte count are equal. The bytes are not compared.
+- The spans a descriptor vends view the memory as bytes and assume it is already bound to `Byte`. `Span.Raw.withRebound(to:_:)` and `Span.Raw.Mutable.withRebound(to:_:)` rebind it to another type only for the duration of the closure.
+- `Span.Raw.Mutable.mutableSpan(count:)` traps when the count is larger than the descriptor's. `Span.Raw.Mutable.copy(from:)` traps when the source is larger than the destination. Otherwise it writes the source's bytes at the start of the destination and leaves the rest unchanged.
+- A descriptor is `Sendable` because its two fields never change. That says nothing about whether the bytes it describes may be used from two places at once.
+- With the `Iterator` trait, a conformer that is also `Iterable` iterates its span in chunks. Each iterator borrows the storage on its own, so two iterators over one value advance independently.
