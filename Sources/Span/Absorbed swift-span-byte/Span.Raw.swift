@@ -1,7 +1,6 @@
 #if Byte
     public import Byte
     public import Cardinal
-    internal import Cardinal
     public import Index
     public import Ordinal
     public import Tagged
