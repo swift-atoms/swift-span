@@ -5,9 +5,15 @@ import Span_Test_Support
 import Testing
 
 @Suite struct `Span protocols lend owned and borrowed contiguous storage` {
+}
+
+extension `Span protocols lend owned and borrowed contiguous storage` {
     @Suite struct `Span conformers preserve borrowed views and element capabilities` {}
+
     @Suite struct `Span protocols preserve empty and single element regions` {}
+
     @Suite struct `Generic span algorithms read owned mutable and borrowed regions` {}
+
     @Suite(.serialized) struct `No span protocol performance cases are defined` {}
 }
 
