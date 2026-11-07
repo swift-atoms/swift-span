@@ -4,37 +4,35 @@ import Ordinal
 import Span
 import Testing
 
-extension `Span Index Tests`.`Span Index Tests` {
-    @Suite
-    struct `Span Index Tests` {
+@Suite
+struct `Span Index Tests` {
 
-        @Test
-        func `MutableSpan Protocol aliases the seam contract`() {
-            #expect(requiresMutableSpanProtocol(Fixture.self))
-        }
+    @Test
+    func `MutableSpan Protocol aliases the seam contract`() {
+        #expect(requiresMutableSpanProtocol(Fixture.self))
+    }
 
-        @Test
-        func `mutableSpan exposes full mutable storage`() {
-            var fixture = Fixture()
-            do {
-                var span = fixture.mutableSpan
-                #expect(span.count == 3)
-                span[1] = 42
-            }
-            #expect(fixture.span[1] == 42)
+    @Test
+    func `mutableSpan exposes full mutable storage`() {
+        var fixture = Fixture()
+        do {
+            var span = fixture.mutableSpan
+            #expect(span.count == 3)
+            span[1] = 42
         }
+        #expect(fixture.span[1] == 42)
+    }
 
-        @Test
-        func `typed count limits the mutable view`() {
-            var fixture = Fixture()
-            let count = Index<Int>.Count(_unchecked: Cardinal(2))
-            do {
-                var prefix = fixture.mutableSpan(count: count)
-                #expect(prefix.count == 2)
-                prefix[1] = 7
-            }
-            #expect(fixture.span[1] == 7)
+    @Test
+    func `typed count limits the mutable view`() {
+        var fixture = Fixture()
+        let count = Index<Int>.Count(_unchecked: Cardinal(2))
+        do {
+            var prefix = fixture.mutableSpan(count: count)
+            #expect(prefix.count == 2)
+            prefix[1] = 7
         }
+        #expect(fixture.span[1] == 7)
     }
 }
 
