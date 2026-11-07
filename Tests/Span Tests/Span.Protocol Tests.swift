@@ -145,7 +145,7 @@ extension `Span protocols lend owned and borrowed contiguous storage`.`Generic s
         let span = region.span
         var total = 0
 
-        for i in 0..<span.count { total += span[i] }
+        (0..<span.count).forEach { i in total += span[i] }
         return total
     }
 

@@ -17,7 +17,7 @@
             defer { unsafe buffer.deallocate() }
             (0..<4).forEach { index in unsafe buffer[index] = UInt8(index + 1) }
             var raw: Span.Raw.Mutable = unsafe .init(buffer)
-            var span = raw.mutableSpan(count: raw.count)
+            var span = unsafe raw.mutableSpan(count: raw.count)
             #expect(span.count == 4)
             let first = span[0]
             let last = span[3]
@@ -37,7 +37,7 @@
             (0..<4).forEach { i in unsafe srcBuffer[i] = UInt8(i + 1) }
             let src: Span.Raw = unsafe .init(UnsafeRawBufferPointer(srcBuffer))
 
-            dst.copy(from: src)
+            unsafe dst.copy(from: src)
             #expect(unsafe Array(dstBuffer) == [1, 2, 3, 4])
         }
 
