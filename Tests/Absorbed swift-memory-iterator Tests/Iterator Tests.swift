@@ -19,9 +19,9 @@
         }
     }
 
-enum `Iterator Tests` {}
+    enum `Iterator Tests` {}
 
-extension `Iterator Tests` {
+    extension `Iterator Tests` {
         @Suite struct `Memory Iterator Tests` {
             @Test func `chunking and zero demand preserve progress`() {
                 let values = [10, 20, 30]
@@ -78,7 +78,7 @@ extension `Iterator Tests` {
                 #expect(empty)
             }
         }
-}
+    }
 
     private struct OwnedValue: ~Copyable { let value: Int }
 #endif
