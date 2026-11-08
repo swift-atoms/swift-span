@@ -1,5 +1,7 @@
 import Span
 import Testing
 
-@Suite
-struct `Memory Span Tests` {}
+extension `Memory Span Tests`.`Memory Span Tests` {
+    @Suite
+    struct `Memory Span Tests` {}
+}
