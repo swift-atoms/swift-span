@@ -1,3 +1,3 @@
 #if Iterator
-    @_exported public import Iterator
+    public import Iterator
 #endif
