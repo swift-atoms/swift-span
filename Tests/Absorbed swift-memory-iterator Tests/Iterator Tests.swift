@@ -23,7 +23,7 @@ enum `Iterator Tests` {}
 
 extension `Iterator Tests` {
         @Suite struct `Memory Iterator Tests` {
-            @Test func chunkingAndZeroDemandPreserveProgress() {
+            @Test func `chunking and zero demand preserve progress`() {
                 let values = [10, 20, 30]
                 let buffer = BorrowedBuffer(values.span)
                 var iterator = buffer.makeIterator()
@@ -43,7 +43,7 @@ extension `Iterator Tests` {
                 #expect(exhausted)
             }
 
-            @Test func emptyStorageStaysExhausted() {
+            @Test func `empty storage stays exhausted`() {
                 let values: [Int] = []
                 let buffer = BorrowedBuffer(values.span)
                 var iterator = buffer.makeIterator()
@@ -52,7 +52,7 @@ extension `Iterator Tests` {
                 #expect(iterator.next() == nil)
             }
 
-            @Test func independentIteratorsBorrowSameSource() {
+            @Test func `independent iterators borrow same source`() {
                 let values = [10, 20, 30]
                 let buffer = BorrowedBuffer(values.span)
                 var first = buffer.makeIterator()
@@ -64,7 +64,7 @@ extension `Iterator Tests` {
                 #expect(second.next() == 20)
             }
 
-            @Test func noncopyableElementsAreBorrowedInChunks() {
+            @Test func `noncopyable elements are borrowed in chunks`() {
                 let values: InlineArray<2, OwnedValue> = [OwnedValue(value: 17), OwnedValue(value: 23)]
                 let buffer = BorrowedBuffer(values.span)
                 var iterator = buffer.makeIterator()
