@@ -1,3 +1,3 @@
 #if Iterator
-    public import Iterator
+    import Iterator
 #endif
