@@ -68,7 +68,8 @@
             @_lifetime(borrow self)
             borrowing get {
                 let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-                return unsafe Swift::Span(_unsafeStart: typed, count: _count)
+                let span = unsafe Swift::Span(_unsafeStart: typed, count: _count)
+                return unsafe _overrideLifetime(span, borrowing: self)
             }
         }
 
@@ -78,7 +79,8 @@
             @_lifetime(&self)
             mutating get {
                 let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-                return unsafe Swift::MutableSpan(_unsafeStart: typed, count: _count)
+                let span = unsafe Swift::MutableSpan(_unsafeStart: typed, count: _count)
+                return unsafe _overrideLifetime(span, mutating: &self)
             }
         }
 
@@ -91,7 +93,8 @@
                 unsafe "Span.Raw.Mutable.mutableSpan(count:): count (\(Int(bitPattern: count))) exceeds span capacity (\(Int(bitPattern: _count)))"
             )
             let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-            return unsafe Swift::MutableSpan(_unsafeStart: typed, count: count)
+            let span = unsafe Swift::MutableSpan(_unsafeStart: typed, count: count)
+            return unsafe _overrideLifetime(span, mutating: &self)
         }
     }
 

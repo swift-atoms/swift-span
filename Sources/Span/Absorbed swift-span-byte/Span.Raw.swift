@@ -68,7 +68,8 @@
             @_lifetime(borrow self)
             borrowing get {
                 let typed = unsafe _start.assumingMemoryBound(to: Byte.self)
-                return unsafe Swift::Span(_unsafeStart: typed, count: _count)
+                let span = unsafe Swift::Span(_unsafeStart: typed, count: _count)
+                return unsafe _overrideLifetime(span, borrowing: self)
             }
         }
     }
